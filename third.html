@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story Book</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Falling confetti */
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ff5e5e;
+    opacity: 0.8;
+    top: -10px;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+  }
+
+  /* Cover page */
+  #cover {
+    width: 450px;
+    height: 550px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+  }
+
+  #cover h1 {
+    color: #fff;
+    text-shadow: 0 0 10px #ff5e5e;
+    font-size: 25px;
+  }
+
+  #cover button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg,#ff7e7e,#ffcccc);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+  }
+
+  #cover button:hover { transform: scale(1.1); }
+
+  /* Book container */
+  .book-container {
+    width: 450px;
+    height: 550px;
+    position: relative;
+    perspective: 2000px;
+    display: none;
+    z-index: 5;
+  }
+
+  .page {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Heading at top */
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    color:white;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  }
+
+  .page h2 { 
+    color: black; 
+    margin-bottom: 10px; 
+    font-size: 28px; 
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+  }
+
+  .page p { 
+    font-size: 18px; 
+    line-height: 1.6; 
+  }
+
+  /* Navigation buttons */
+  .nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .nav-buttons.show { opacity: 1; }
+
+  .nav-buttons button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #ff7e7e, #ffcccc);
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+  }
+
+  .nav-buttons button:hover { transform: scale(1.1); }
+  .nav-buttons button:disabled { background: #f5c1c1; cursor: not-allowed; }
+
+  /* Final message styles */
+  #finalMessage, #bigMsg {
+    display: none;
+    width: 500px;
+    background: rgba(255,255,255,0.9);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: absolute;
+  }
+
+  #bigMsg { margin-top: 20px; font-size: 18px; text-align: left; line-height: 1.6; }
+#byeMsg {
+  display: none;
+  width: 500px;
+  background: rgba(255,255,255,0.9);
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: absolute;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Confetti container -->
+<div id="confettiContainer"></div>
+
+<!-- Cover page with Open button --> 
+<div id="cover">
+  <h1>Idi imagination a kaadhu Reality lo mana life ilane unadhiiii..</h1>
+  <button id="openBtn">Open </button>
+</div>
+
+<!-- Book container -->
+<div class="book-container" id="bookContainer">
+  <div class="page" style="z-index:3; background-image: url('career.jpeg');">
+    <h2>Career</h2>
+    <div class="content">
+      <p>you: As an Entrepreneur.</p> 
+      <p>Me: As a Job holder.</p>
+    </div>
+  </div>
+
+  <div class="page" style="z-index:2; background-image: url('chupulu.jpeg');">
+    <h2>Pelli Choopulu</h2>
+    <div class="content">
+      <p>Enti chusthunnav mana pelliki idhari intlo vallu maatladukuntunnaru. Nenu room lo nundi anadhariki Tea theesukosthunna... yevandiii Tea thesukondii....Nv navvukuntu Tea theesukuntuunavv.</p>
+    </div>
+  </div>
+
+  <div class="page" style="z-index:1; background-image: url('engage.jpeg');">
+    <h2>Engagement</h2>
+    <div class="content">
+      <p>Bobby we did it.. Mana engagement ra antey sagam pelli aypoyindhi. Inka happy ga gundela meedha cheyyi vesukoni padukoo. Cheppadam marchipoya engagement ring chaala baagundhi.. Inkaa nv kuda aa suite lo chaala baagunnav.</p>
+    </div>
+  </div>
+
+  <div class="page" style="z-index:0; background-image: url('marraige.jpeg');">
+    <h2>Marriage</h2>
+    <div class="content">
+      <p>Pelli.... Gudilo, pachi poola mandapam lo, vedha manthralatho, thaala melalatho, chuttala aashrirvaadham tho, mana intlo valla prema thoo.. jeela karra bellam pette thanthu tho mana manadhya unna thera theeseyyaga idhari kallu anadha bhashpalatho nindipoga.. magalya dhaarana sumuhurtha masthuu antu panthulugaruu manthralu chadavagaa.. nv na medalo thaali kattaga mana idharam okataipoyam.</p>
+    </div>
+  </div>
+
+  <div class="page" style="z-index:1; background-image: url('kid.jpeg');">
+    <h2>Family</h2>
+    <div class="content">
+      <p>Bobby,ippudu manaki oka buddadhi puttindhi antey na athammaa..ippudu na meedha unna prema motham papa meedha ki vellipodhii kadhaa ..hee saradaga annalee.idharini baaga chusukuntav i know.</p>
+    </div>
+  </div>
+
+  <div class="page" style="z-index:1; background-image: url('dream.jpeg');">
+    <h2>Dreams</h2>
+    <div class="content">
+      <p>Great nanna,mana own house and car manaki inkem kavali ,nv cheppinavanni chesesav inka life long ilane happy ga brathikedham...</p>
+    </div>
+  </div>
+
+  <div class="page" style="z-index:1; background-image: url('old.jpeg');">
+    <h2>Old age</h2>
+    <div class="content">
+      <p>Idi mana last stage antey 60 years kalisi unna tharwatha.Nanna neeku cheppa kadha life long neethone unta anii,life antha kalisi chusesam ,chudu our bones are visible, till we are together.Chaalu ilaa ni odilo thala pettukoni na last breath vadhilesthunnaa..</p>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation buttons -->
+<div class="nav-buttons" id="navButtons">
+  <button id="prevBtn" disabled>Previous</button>
+  <button id="nextBtn">What Next?</button>
+</div>
+
+<!-- Final messages -->
+<div id="finalMessage">inka aypoyindhi raa - small msg for you</div>
+<div id="bigMsg">
+Priyamaina mogudu garuu..,Manam 3 years successful ga mana relationship ni complete chesukoni, ippudu 4th year loki vachesam. Ee 3 years lo manam chaala kashtapaddam, chaala enjoy chesam, baadha paddam, chaala godavalu kuda paddam… 
+Kaani ivanni jarigina, still manam kalise unnam.
+Okarini okaru chaala baaga ardam chesukunnam.
+Enni godavalu vachina, enni misunderstandings vachina, okka roju kuda manam vidipoledu.
+Manam eppatiki ilane kalisi undali… 3 × 20 ante inkoka 60 years 💖
+Mana relationship lo expensive gifts lekapovachu, pedda ga kalisina time lekapovachu, kaani every single day nuvvu naaku isthunna special time ade naaku most expensive gift.
+I really admire to your character.
+Elanti situation vachina ninnu vadalanu. Kalisi mana life ni set chesukundham.
+Nenu ni wife avvadaniki mundu, nenu neeku AMMA ni avtha, neeku eppudu lotu lekunda chusukunta.
+Just marry me. Naa chivari swasa varaku nee pakkane unta 🤍.
+</div>
+<div id="byeMsg">
+  Bye nanna 💖<br>
+  Once again Happy Anniversary<br>
+  Special thanks to "Chanti Annayya"
+</div>
+
+<script>
+  const cover = document.getElementById('cover');
+  const bookContainer = document.getElementById('bookContainer');
+  const pages = Array.from(document.querySelectorAll('.book-container .page'));
+  const openBtn = document.getElementById('openBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const navButtons = document.getElementById('navButtons');
+  const confettiContainer = document.getElementById('confettiContainer');
+  const finalMessage = document.getElementById('finalMessage');
+  const bigMsg = document.getElementById('bigMsg');
+
+  let currentPage = 0;
+
+  pages.forEach((page) => page.style.transform = 'rotateY(180deg)');
+
+  function createConfetti() {
+    const colors = ['#ff5e5e', '#ff7e7e', '#ffcccc', '#ffe6f0'];
+    for (let i = 0; i < 30; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (3 + Math.random() * 3) + 's';
+      confetti.style.width = confetti.style.height = (5 + Math.random() * 10) + 'px';
+      confettiContainer.appendChild(confetti);
+    }
+  }
+
+  createConfetti();
+
+  openBtn.addEventListener('click', () => {
+    cover.style.display = 'none';
+    bookContainer.style.display = 'block';
+    navButtons.classList.add('show');
+    showPage(0);
+  });
+
+  function showPage(index) {
+    pages.forEach((page, idx) => {
+      page.style.transform = idx === index ? 'rotateY(0deg)' : 'rotateY(180deg)';
+    });
+    currentPage = index;
+    prevBtn.disabled = currentPage === 0;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (currentPage < pages.length - 1) {
+      showPage(currentPage + 1);
+    } else {
+      // Last page clicked
+      bookContainer.style.display = 'none';
+      navButtons.style.display = 'none';
+      finalMessage.style.display = 'block';
+     setTimeout(() => { 
+  bigMsg.style.display = 'block';
+
+  // show bye message after 20 seconds
+  setTimeout(() => {
+    document.getElementById('byeMsg').style.display = 'block';
+  }, 60000);
+
+}, 5000);
+
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 0) showPage(currentPage - 1);
+  });
+</script>
+
+</body>
+</html>

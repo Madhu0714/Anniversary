@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our Journey Recap</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .slide img {
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transform: scale(0.8);
+            transition: transform 1s ease;
+        }
+
+        .slide p {
+            font-size: 22px;
+            color: #333;
+            margin-top: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .active {
+            opacity: 1;
+        }
+
+        .active img {
+            transform: scale(1);
+        }
+
+        .active p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .opening img {
+            animation: openingZoom 2.5s ease forwards;
+        }
+
+        @keyframes openingZoom {
+            0% {
+                opacity: 0;
+                transform: scale(1.3);
+                filter: blur(6px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff4d6d;
+            animation: float 5s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* 🔘 HOLD BUTTON STYLES */
+        .future-container {
+            margin-top: 30px;
+        }
+
+        #holdBtn {
+            position: relative;
+            padding: 18px 55px;
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff4d6d, #ff758f);
+            color: white;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(255,77,109,0.6);
+            animation: pulse 2s infinite;
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: rgba(255,255,255,0.4);
+            transition: width 2.5s linear;
+        }
+
+        .hint {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+            opacity: 0.8;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(255,77,109,0.6); }
+            50% { box-shadow: 0 0 40px rgba(255,77,109,1); }
+            100% { box-shadow: 0 0 15px rgba(255,77,109,0.6); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide opening" data-duration="3000">
+        <img src="img.jpg">
+        <p>Our journey started as classmates.</p>
+    </div>
+
+    <div class="slide" data-duration="3000">
+        <img src="friends.jpg">
+        <p>Became friends in 2020 ✨</p>
+    </div>
+
+    <div class="slide" data-duration="3000">
+        <img src="prop.jpg">
+        <p>Proposed me on April 1, 2021 💌</p>
+    </div>
+
+    <div class="slide" data-duration="3000">
+        <img src="gift.jpeg">
+        <p>First gift 💌</p>
+    </div>
+
+    <div class="slide" data-duration="3000">
+        <img src="movie.jpg">
+        <p>First Movie 💌</p>
+    </div>
+
+    <div class="slide" data-duration="3000">
+        <img src="journey.jpg">
+        <p>Accepted you & started our journey from <strong>DECEMBER 29 2022</strong> 💌</p>
+    </div>
+
+    <div class="slide" data-duration="6000">
+        <img src="long.jpg">
+        <p>Our long-distance journey started in March 2023 💌</p>
+        <p><strong>This phase made us understand each other deeply and stand strong together.</strong></p>
+    </div>
+
+    <div class="slide" data-duration="6000">
+        <img src="pedda.jpg">
+        <p>This is our first Trip, when I travelled 457kms to see you 💌</p>
+    </div>
+
+    <div class="slide" data-duration="6000">
+        <img src="coringa.jpg">
+        <p>This is our second Trip, when you travelled 457kms to see me 💌</p>
+    </div>
+
+    <!-- 💖 FINAL MESSAGE SLIDE WITH BUTTON -->
+    <div class="slide" data-duration="20000">
+        <p style="font-size:28px; font-weight:bold;">
+            idi masteruuu mana journey 💖
+        </p>
+        <p style="font-size:24px; font-weight:bold;">
+            sardaga mana future ni kuda chudhamaa! ✨
+        </p>
+
+        <div class="future-container">
+            <button id="holdBtn">
+                <span class="btn-text">Hold My Hand 🤝</span>
+                <span class="progress"></span>
+            </button>
+            <p class="hint">Press & hold 💫</p>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let current = 0;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+
+            const duration = slides[index].dataset.duration || 3000;
+
+            setTimeout(() => {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            }, duration);
+        }
+
+        showSlide(current);
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 90 + 'vw';
+            heart.style.fontSize = (10 + Math.random() * 25) + 'px';
+            heart.style.animationDuration = (3 + Math.random() * 4) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 7000);
+        }
+
+        setInterval(createHeart, 200);
+
+        /* 🔘 HOLD BUTTON LOGIC */
+        const holdBtn = document.getElementById("holdBtn");
+        const progress = document.querySelector(".progress");
+        let holdTimeout;
+
+        if (holdBtn) {
+            holdBtn.addEventListener("mousedown", startHold);
+            holdBtn.addEventListener("touchstart", startHold);
+
+            holdBtn.addEventListener("mouseup", cancelHold);
+            holdBtn.addEventListener("mouseleave", cancelHold);
+            holdBtn.addEventListener("touchend", cancelHold);
+        }
+
+        function startHold() {
+            progress.style.width = "100%";
+            holdTimeout = setTimeout(() => {
+                window.location.href = "third.html";
+            }, 2500);
+        }
+
+        function cancelHold() {
+            clearTimeout(holdTimeout);
+            progress.style.width = "0%";
+        }
+    </script>
+
+</body>
+</html>
