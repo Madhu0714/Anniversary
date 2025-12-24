@@ -18,7 +18,6 @@
     position: relative;
   }
 
-  /* Falling confetti */
   .confetti {
     position: absolute;
     width: 10px;
@@ -34,7 +33,6 @@
     100% { transform: translateY(100vh) rotate(360deg); }
   }
 
-  /* Cover page */
   #cover {
     width: 450px;
     height: 550px;
@@ -70,7 +68,6 @@
 
   #cover button:hover { transform: scale(1.1); }
 
-  /* Book container */
   .book-container {
     width: 450px;
     height: 550px;
@@ -89,7 +86,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Heading at top */
+    justify-content: flex-start;
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
@@ -122,7 +119,6 @@
     line-height: 1.6; 
   }
 
-  /* Navigation buttons */
   .nav-buttons {
     display: flex;
     justify-content: center;
@@ -149,7 +145,6 @@
   .nav-buttons button:hover { transform: scale(1.1); }
   .nav-buttons button:disabled { background: #f5c1c1; cursor: not-allowed; }
 
-  /* Final message styles */
   #finalMessage, #bigMsg {
     display: none;
     width: 500px;
@@ -164,29 +159,30 @@
   }
 
   #bigMsg { margin-top: 20px; font-size: 18px; text-align: left; line-height: 1.6; }
-#byeMsg {
-  display: none;
-  width: 500px;
-  background: rgba(255,255,255,0.9);
-  padding: 25px;
-  border-radius: 20px;
-  text-align: center;
-  font-size: 18px;
-  color: #333;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  position: absolute;
-  margin-top: 20px;
-  font-weight: bold;
-}
 
+  #byeMsg {
+    display: none;
+    width: 500px;
+    background: rgba(255,255,255,0.9);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: absolute;
+    margin-top: 20px;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
 
-<!-- Confetti container -->
+<!-- ✅ ADDED AUDIO (ONLY ADDITION) -->
+<audio id="bgSong" src="song.mpeg" loop></audio>
+
 <div id="confettiContainer"></div>
 
-<!-- Cover page with Open button --> 
 <div id="cover">
   <h1>Idi imagination a kaadhu Reality lo mana life ilane unadhiiii..</h1>
   <button id="openBtn">Open </button>
@@ -230,7 +226,7 @@
     </div>
   </div>
 
-  <div class="page" style="z-index:1; background-image: url('dream.jpeg');">
+  <div class="page" style="z-index:1; background-image: url('house.jpeg');">
     <h2>Dreams</h2>
     <div class="content">
       <p>Great nanna,mana own house and car manaki inkem kavali ,nv cheppinavanni chesesav inka life long ilane happy ga brathikedham...</p>
@@ -240,19 +236,19 @@
   <div class="page" style="z-index:1; background-image: url('old.jpeg');">
     <h2>Old age</h2>
     <div class="content">
-      <p>Idi mana last stage antey 60 years kalisi unna tharwatha.Nanna neeku cheppa kadha life long neethone unta anii,life antha kalisi chusesam ,chudu our bones are visible, till we are together.Chaalu ilaa ni odilo thala pettukoni na last breath vadhilesthunnaa..</p>
+      <p>Idi mana last stage antey 60 years kalisi unna tharwatha.Nanna neeku cheppa kadha life long neethone unta anii,life antha kalisi chusesam ,chudu our bones are visible, till we are together.</p>
     </div>
   </div>
+
 </div>
 
-<!-- Navigation buttons -->
 <div class="nav-buttons" id="navButtons">
   <button id="prevBtn" disabled>Previous</button>
   <button id="nextBtn">What Next?</button>
 </div>
 
-<!-- Final messages -->
 <div id="finalMessage">inka aypoyindhi raa - small msg for you</div>
+
 <div id="bigMsg">
 Priyamaina mogudu garuu..,Manam 3 years successful ga mana relationship ni complete chesukoni, ippudu 4th year loki vachesam. Ee 3 years lo manam chaala kashtapaddam, chaala enjoy chesam, baadha paddam, chaala godavalu kuda paddam… 
 Kaani ivanni jarigina, still manam kalise unnam.
@@ -264,10 +260,12 @@ I really admire to your character.
 Elanti situation vachina ninnu vadalanu. Kalisi mana life ni set chesukundham.
 Nenu ni wife avvadaniki mundu, nenu neeku AMMA ni avtha, neeku eppudu lotu lekunda chusukunta.
 Just marry me. Naa chivari swasa varaku nee pakkane unta 🤍.
+
 </div>
+
 <div id="byeMsg">
   Bye nanna 💖<br>
-  Once again Happy Anniversary<br>
+  Once again Happy Anniversary....<br>
   Special thanks to "Chanti Annayya"
 </div>
 
@@ -282,6 +280,10 @@ Just marry me. Naa chivari swasa varaku nee pakkane unta 🤍.
   const confettiContainer = document.getElementById('confettiContainer');
   const finalMessage = document.getElementById('finalMessage');
   const bigMsg = document.getElementById('bigMsg');
+
+  /* ✅ ADDED */
+  const bgSong = document.getElementById('bgSong');
+  let songStarted = false;
 
   let currentPage = 0;
 
@@ -303,6 +305,13 @@ Just marry me. Naa chivari swasa varaku nee pakkane unta 🤍.
   createConfetti();
 
   openBtn.addEventListener('click', () => {
+
+    /* ✅ SONG PLAYS HERE */
+    if (!songStarted) {
+      bgSong.play();
+      songStarted = true;
+    }
+
     cover.style.display = 'none';
     bookContainer.style.display = 'block';
     navButtons.classList.add('show');
@@ -321,20 +330,16 @@ Just marry me. Naa chivari swasa varaku nee pakkane unta 🤍.
     if (currentPage < pages.length - 1) {
       showPage(currentPage + 1);
     } else {
-      // Last page clicked
       bookContainer.style.display = 'none';
       navButtons.style.display = 'none';
       finalMessage.style.display = 'block';
-     setTimeout(() => { 
-  bigMsg.style.display = 'block';
 
-  // show bye message after 20 seconds
-  setTimeout(() => {
-    document.getElementById('byeMsg').style.display = 'block';
-  }, 60000);
-
-}, 5000);
-
+      setTimeout(() => { 
+        bigMsg.style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('byeMsg').style.display = 'block';
+        }, 60000);
+      }, 5000);
     }
   });
 
